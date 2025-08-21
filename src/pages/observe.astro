@@ -1,0 +1,25 @@
+---
+import MobileObservationForm from '../components/MobileObservationForm';
+---
+
+<div class="min-h-screen bg-gray-50">
+  {/* Header */}
+  <div class="bg-white shadow-sm border-b">
+    <div class="px-4 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          {/* Icons will be rendered by the MobileObservationForm component */}
+          <h1 class="text-lg font-semibold text-gray-900">Live Observation</h1>
+        </div>
+        <div class="flex items-center space-x-2">
+          {/* Icons will be rendered by the MobileObservationForm component */}
+          <span class="text-sm text-gray-600">15:23</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* MobileObservationForm React component will be here */}
+  <MobileObservationForm client:load />
+
+</div>

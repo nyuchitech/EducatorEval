@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FrameworkConfigurator from '../components/FrameworkConfigurator.tsx';
+
+const pathname = Astro.url.pathname;
+---
+
+<Layout pathname={pathname}>
+  <FrameworkConfigurator client:idle />
+</Layout>

@@ -19,7 +19,7 @@ interface Question {
   type: string;
   scale?: number;
   frameworkAlignments?: string[];
-  frameworks?: string;
+  frameworks?: string; // This seems like denormalized data based on frameworkAlignments
 }
 
 interface ObservationData {
@@ -36,7 +36,7 @@ interface ObservationData {
   overallComment: string;
 }
 
-export default function MobileObservationCapture() {
+const MobileObservationForm: React.FC = () => {
   const [selectedFramework, setSelectedFramework] = useState('crp-in-action');
   const [observationData, setObservationData] = useState<ObservationData>({
     teacher: '',
@@ -53,7 +53,7 @@ export default function MobileObservationCapture() {
   });
   const [currentSection, setCurrentSection] = useState(0);
 
-  // Sample teacher schedule data
+  // Sample teacher schedule data - This data should ideally come from an API/Firebase
   const teachers: Teacher[] = [
     {
       id: 'teacher1',
@@ -61,13 +61,13 @@ export default function MobileObservationCapture() {
       currentClass: { name: 'Algebra I - Period 3', subject: 'Mathematics', room: 'B205', period: 'Period 3', grade: '9th Grade' }
     },
     {
-      id: 'teacher2', 
+      id: 'teacher2',
       name: 'Michael Brown',
       currentClass: { name: 'Biology - Period 2', subject: 'Science', room: 'A108', period: 'Period 2', grade: '10th Grade' }
     },
     {
       id: 'teacher3',
-      name: 'Emily Wilson', 
+      name: 'Emily Wilson',
       currentClass: { name: 'English Literature - Period 1', subject: 'English', room: 'C301', period: 'Period 1', grade: '11th Grade' }
     },
     {
@@ -77,7 +77,7 @@ export default function MobileObservationCapture() {
     }
   ];
 
-  // Framework alignment options
+  // Framework alignment options - This data should ideally come from an API/Firebase
   const frameworkOptions = [
     { id: 'crp-general', label: 'CRP (General)', color: 'green' },
     { id: 'crp-curriculum', label: 'CRP (Curriculum Relevance)', color: 'green' },
@@ -101,6 +101,7 @@ export default function MobileObservationCapture() {
     return colorMap[color as keyof typeof colorMap] || 'bg-gray-100 text-gray-800';
   };
 
+  // Frameworks data - This data should ideally come from an API/Firebase
   const frameworks = {
     'crp-in-action': {
       name: 'CRP in Action: Integrated Observation Tool',
@@ -108,73 +109,73 @@ export default function MobileObservationCapture() {
         {
           title: 'Classroom Observation',
           questions: [
-            { 
-              id: 'lookfor1', 
-              text: 'The learning target is clearly communicated, standards-based, and relevant to students. Students can explain what they are learning and why.', 
-              type: 'rating', 
+            {
+              id: 'lookfor1',
+              text: 'The learning target is clearly communicated, standards-based, and relevant to students. Students can explain what they are learning and why.',
+              type: 'rating',
               scale: 4,
               frameworkAlignments: ['5-daily-assessment', 'crp-curriculum', 'tripod-clarify']
             },
-            { 
-              id: 'lookfor2', 
-              text: 'Teacher fosters a respectful, inclusive, and identity-affirming environment where all students feel a sense of belonging.', 
-              type: 'rating', 
+            {
+              id: 'lookfor2',
+              text: 'Teacher fosters a respectful, inclusive, and identity-affirming environment where all students feel a sense of belonging.',
+              type: 'rating',
               scale: 4,
               frameworkAlignments: ['crp-general', 'casel-social-awareness', 'panorama', 'tripod-care']
             },
-            { 
-              id: 'lookfor3', 
-              text: 'Teacher checks for understanding and adjusts instruction in response to student needs.', 
-              type: 'rating', 
+            {
+              id: 'lookfor3',
+              text: 'Teacher checks for understanding and adjusts instruction in response to student needs.',
+              type: 'rating',
               scale: 4,
               frameworkAlignments: ['5-daily-assessment', 'tripod-clarify', 'inclusive-practices']
             },
-            { 
-              id: 'lookfor4', 
-              text: 'Teacher uses questioning strategies that increase cognitive demand and promote student thinking.', 
-              type: 'rating', 
+            {
+              id: 'lookfor4',
+              text: 'Teacher uses questioning strategies that increase cognitive demand and promote student thinking.',
+              type: 'rating',
               scale: 4,
               frameworks: '🎯 5 Daily Assessment Practices, 🌍 CRP (High Expectations), ⚡ Tripod: Challenge'
             },
-            { 
-              id: 'lookfor5', 
-              text: 'Students are engaged in meaningful, collaborative learning experiences with clear roles and expectations.', 
-              type: 'rating', 
+            {
+              id: 'lookfor5',
+              text: 'Students are engaged in meaningful, collaborative learning experiences with clear roles and expectations.',
+              type: 'rating',
               scale: 4,
               frameworks: '🌍 CRP, ❤️ CASEL (Relationship Skills), 🎭 Tripod: Captivate & Control, 🧩 Inclusive Practices'
             },
-            { 
-              id: 'lookfor6', 
-              text: 'Teacher demonstrates cultural competence and integrates students\' backgrounds and experiences into the lesson.', 
-              type: 'rating', 
+            {
+              id: 'lookfor6',
+              text: 'Teacher demonstrates cultural competence and integrates students\\\' backgrounds and experiences into the lesson.',
+              type: 'rating',
               scale: 4,
               frameworks: '🌍 CRP (Learning Partnerships), 🤝 Panorama, ❤️ CASEL (Social Awareness), 💬 Tripod: Confer'
             },
-            { 
-              id: 'lookfor7', 
-              text: 'Teacher actively monitors and supports students during group and independent work.', 
-              type: 'rating', 
+            {
+              id: 'lookfor7',
+              text: 'Teacher actively monitors and supports students during group and independent work.',
+              type: 'rating',
               scale: 4,
               frameworks: '🎯 5 Daily Assessment Practices, 🔍 Tripod: Control, 🧩 Inclusive Practices'
             },
-            { 
-              id: 'lookfor8', 
-              text: 'Students have opportunities to reflect on and consolidate their learning during and after the lesson.', 
-              type: 'rating', 
+            {
+              id: 'lookfor8',
+              text: 'Students have opportunities to reflect on and consolidate their learning during and after the lesson.',
+              type: 'rating',
               scale: 4,
               frameworks: '🎯 5 Daily Assessment Practices, ❤️ CASEL (Self-Management), 🧠 Tripod: Consolidate'
             },
-            { 
-              id: 'lookfor9', 
-              text: 'Teacher builds strong, trusting relationships with students through affirming interactions.', 
-              type: 'rating', 
+            {
+              id: 'lookfor9',
+              text: 'Teacher builds strong, trusting relationships with students through affirming interactions.',
+              type: 'rating',
               scale: 4,
               frameworks: '🤝 Panorama, 🌍 CRP, ❤️ CASEL (Relationship Skills), 💬 Tripod: Care'
             },
-            { 
-              id: 'lookfor10', 
-              text: 'Instruction is differentiated and scaffolds support access for diverse learning needs.', 
-              type: 'rating', 
+            {
+              id: 'lookfor10',
+              text: 'Instruction is differentiated and scaffolds support access for diverse learning needs.',
+              type: 'rating',
               scale: 4,
               frameworks: '🧩 Inclusive Practices, 🌍 CRP, ❤️ CASEL (Equity & Access), 🔍 Tripod: Clarify & Control'
             }
@@ -224,7 +225,7 @@ export default function MobileObservationCapture() {
                 <option value="not-observed">Not Observed</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Comments & Evidence</label>
               <textarea
@@ -243,7 +244,7 @@ export default function MobileObservationCapture() {
             <div className="grid grid-cols-2 gap-2">
               {/* Note: question.options would need to be defined for this to work */}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Comments & Evidence</label>
               <textarea
@@ -271,10 +272,11 @@ export default function MobileObservationCapture() {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      {/* Header - Already in Astro page */}
+      {/* <div className="bg-white shadow-sm border-b">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -287,7 +289,7 @@ export default function MobileObservationCapture() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Class/Teacher Info */}
       <div className="bg-white border-b px-4 py-3">
@@ -321,7 +323,7 @@ export default function MobileObservationCapture() {
               ))}
             </select>
           </div>
-          
+
           {observationData.teacherId && (
             <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
               <div className="grid grid-cols-2 gap-2 text-xs">
@@ -374,7 +376,7 @@ export default function MobileObservationCapture() {
               10 Look-Fors: Integrated Observation
             </h2>
             <p className="text-sm text-gray-600 mt-1">Brief 10-15 minute classroom observation</p>
-            
+
             {/* Progress Indicator */}
             <div className="mt-3 bg-gray-100 rounded-lg p-3">
               <div className="flex justify-between items-center mb-2">
@@ -384,10 +386,10 @@ export default function MobileObservationCapture() {
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
-                  style={{ 
-                    width: `${(Object.keys(observationData.responses).length / currentQuestions.length) * 100}%` 
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: `${(Object.keys(observationData.responses).length / currentQuestions.length) * 100}%`
                   }}
                 ></div>
               </div>
@@ -397,7 +399,7 @@ export default function MobileObservationCapture() {
           {currentQuestions.map((question, index) => {
             const rating = observationData.responses[question.id];
             const comment = observationData.comments[question.id];
-            
+
             return (
               <div key={question.id} className="bg-white rounded-lg p-4 shadow-sm border">
                 <div className="mb-4">
@@ -427,8 +429,8 @@ export default function MobileObservationCapture() {
                           const framework = frameworkOptions.find(f => f.id === alignmentId);
                           if (!framework) return null;
                           return (
-                            <span 
-                              key={alignmentId} 
+                            <span
+                              key={alignmentId}
                               className={`px-2 py-1 rounded text-xs ${getFrameworkColorClasses(framework.color)}`}
                             >
                               {framework.label}
@@ -446,7 +448,7 @@ export default function MobileObservationCapture() {
                   )}
                 </div>
                 {renderQuestion(question)}
-                
+
                 {/* Show completion status */}
                 <div className="mt-3 flex items-center space-x-2">
                   <div className={`w-2 h-2 rounded-full ${
@@ -503,7 +505,7 @@ export default function MobileObservationCapture() {
               <p className="text-sm text-yellow-800">Please select a teacher and class to begin observation.</p>
             </div>
           )}
-          
+
           {observationData.teacherId && Object.keys(observationData.responses).length < currentQuestions.length && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
               <p className="text-sm text-blue-800">
@@ -511,16 +513,16 @@ export default function MobileObservationCapture() {
               </p>
             </div>
           )}
-          
+
           <div className="flex space-x-3">
-            <button 
+            <button
               disabled={!observationData.teacherId}
               className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-medium flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
               <span>Save Draft</span>
             </button>
-            <button 
+            <button
               disabled={!observationData.teacherId || Object.keys(observationData.responses).length === 0}
               className="flex-1 bg-blue-500 text-white py-3 rounded-lg font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:bg-gray-400"
             >
@@ -532,4 +534,6 @@ export default function MobileObservationCapture() {
       </div>
     </div>
   );
-}
+};
+
+export default MobileObservationForm;
