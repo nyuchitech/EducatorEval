@@ -14,14 +14,12 @@ A comprehensive classroom observation system designed to systematically collect 
 - **PWA Support**: Works offline for classroom observations
 
 ## 🏗️ Tech Stack
-
-- **Frontend**: React 18 + TypeScript
+- **Frontend**: Astro (Static Site Generation) + React 18 + TypeScript (for interactive components)
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
-- **Routing**: React Router v6
-- **State Management**: React Hooks + Context API
-- **Build Tool**: Create React App
-- **PWA**: Service Worker + Manifest
+- **Routing**: Astro File-based Routing
+- **Build Tool**: Astro
+- **PWA**: Service Worker + Manifest (implemented via Astro integrations)
 
 ## 📊 Framework Integration
 
