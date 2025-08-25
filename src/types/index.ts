@@ -1,5 +1,8 @@
 // Common types used across the CRP Observation System
 
+// User role enumeration
+export type UserRole = 'admin' | 'coordinator' | 'observer' | 'teacher';
+
 export interface Framework {
   id: string;
   name: string;
@@ -62,18 +65,26 @@ export interface Observer {
 export interface Observation {
   id: string;
   teacherId: string;
+  teacherName: string;
   observerId: string;
+  observerName: string;
   frameworkId: string;
   date: string;
   startTime: string;
   endTime?: string;
   duration: number;
-  status: 'draft' | 'in-progress' | 'completed';
+  status: 'draft' | 'in-progress' | 'completed' | 'submitted';
   responses: Record<string, ObservationResponse>;
   comments: Record<string, string>;
   overallComment: string;
   classInfo: ClassInfo;
   mediaAttachments?: MediaAttachment[];
+  crpEvidenceCount?: number;      // Auto-calculated from responses
+  totalLookFors?: number;         // Auto-calculated
+  metadata?: {                    // Enhanced tracking
+    location?: string;
+    syncStatus?: 'synced' | 'pending' | 'offline';
+  };
 }
 
 export interface ObservationResponse {
@@ -168,7 +179,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'observer' | 'teacher';
+  role: UserRole;
   department: string;
   permissions: string[];
   lastLogin?: string;
@@ -179,4 +190,42 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   token?: string;
+}
+
+// Scheduled observation types
+export interface ScheduledObservation {
+  id: string;
+  teacherId: string;
+  observerId: string;
+  frameworkId: string;
+  scheduledDate: string;
+  scheduledTime: string;
+  duration: number;
+  status: 'scheduled' | 'confirmed' | 'cancelled' | 'completed';
+  notes?: string;
+  remindersSent: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Observation filters and search
+export interface ObservationFilters {
+  status?: ('draft' | 'in-progress' | 'completed' | 'scheduled')[];
+  dateRange?: {
+    start: string;
+    end: string;
+  };
+  teacherId?: string;
+  observerId?: string;
+  frameworkId?: string;
+  department?: string;
+}
+
+export interface ObservationSearchParams {
+  query?: string;
+  filters?: ObservationFilters;
+  sortBy?: 'date' | 'teacher' | 'observer' | 'framework' | 'status';
+  sortOrder?: 'asc' | 'desc';
+  page?: number;
+  limit?: number;
 }

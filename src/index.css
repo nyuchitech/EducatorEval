@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/preflight";
+@tailwind utilities;
+@tailwind utilities;
 
 /* Custom styles for CRP Observation System */
 body {

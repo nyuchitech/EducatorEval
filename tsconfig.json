@@ -1,5 +1,5 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  // "extends": "astro/tsconfigs/strict", // Removed due to missing file
   "include": [
     ".astro/types.d.ts",
     "**/*"
@@ -9,6 +9,17 @@
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true
   }
 }

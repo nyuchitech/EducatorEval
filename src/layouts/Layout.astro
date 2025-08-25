@@ -9,20 +9,22 @@ import {
   Users,
   TrendingUp
 } from 'lucide-react';
+import '../styles/global.css';
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Framework Config', href: '/framework', icon: Settings },
-  { name: 'Data Management', href: '/data', icon: Database },
-];
-
-const isActive = (path: string) => currentPath === path;
+const isActive = (path: string) => pathname === path;
 ---
 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRP in Action - Observation System</title>
+</head>
+<body>
 <div class="min-h-screen bg-gray-50 flex">
-  {# Sidebar #}
+  <!-- Sidebar -->
   <div class="w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col">
-    {# Logo/Header #}
+    <!-- Logo/Header -->
     <div class="p-6 border-b border-gray-200">
       <div class="flex items-center space-x-3">
         <div class="bg-blue-500 p-2 rounded-lg">
@@ -35,7 +37,7 @@ const isActive = (path: string) => currentPath === path;
       </div>
     </div>
 
-    {# Quick Stats #}
+    <!-- Quick Stats -->
     <div class="p-6 border-b border-gray-200">
       <div class="space-y-3">
         <div class="flex items-center justify-between">
@@ -43,7 +45,7 @@ const isActive = (path: string) => currentPath === path;
           <span class="text-sm font-medium text-blue-600">247/5,000</span>
         </div>
         <div class="w-full bg-gray-200 rounded-full h-2">
-          <div class="bg-blue-500 h-2 rounded-full" style="width: 4.9%;"></div>
+          <div class="bg-blue-500 h-2 rounded-full w-[4.9%]"></div>
         </div>
         <div class="grid grid-cols-2 gap-3 text-xs">
           <div class="text-center">
@@ -58,33 +60,63 @@ const isActive = (path: string) => currentPath === path;
       </div>
     </div>
 
-    {# Navigation #}
+    <!-- Navigation -->
     <nav class="flex-1 p-6">
       <div class="space-y-2">
-        {navigation.map((item) => {
-          const Icon = item.icon;
-          return (
-            <a
-              key={item.name}
-              href={item.href}
-              class={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive(item.href)
-                  ? 'bg-blue-50 text-blue-700 border border-blue-200' // Apply active styles if currentPath matches item.href
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              <Icon className="w-5 h-5" client:only="react" />
-              <span>{item.name}</span>
-            </a>
-          );
-        })}
+        <a
+          href="/dashboard"
+          class={`flex items-center space-x-4 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            isActive('/dashboard')
+              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+              : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        >
+          <LayoutDashboard className="w-5 h-5" client:only="react" />
+          <span>Dashboard</span>
+        </a>
+        
+        <a
+          href="/observations"
+          class={`flex items-center space-x-4 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            isActive('/observations')
+              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+              : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        >
+          <BookOpen className="w-5 h-5" client:only="react" />
+          <span>Observations</span>
+        </a>
+        
+        <a
+          href="/framework"
+          class={`flex items-center space-x-4 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            isActive('/framework')
+              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+              : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        >
+          <Settings className="w-5 h-5" client:only="react" />
+          <span>Framework Config</span>
+        </a>
+        
+        <a
+          href="/data"
+          class={`flex items-center space-x-4 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            isActive('/data')
+              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+              : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        >
+          <Database className="w-5 h-5" client:only="react" />
+          <span>Data Management</span>
+        </a>
       </div>
 
-      {# Mobile Observation Link #}
+      <!-- Mobile Observation Link -->
       <div class="mt-8 pt-6 border-t border-gray-200">
         <a
           href="/observe"
-          class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
+          class="flex items-center space-x-4 px-3 py-2 rounded-lg text-sm font-medium bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
         >
           <Smartphone className="w-5 h-5" client:only="react" />
           <span>Mobile Observe</span>
@@ -92,7 +124,7 @@ const isActive = (path: string) => currentPath === path;
       </div>
     </nav>
 
-    {# Footer #}
+    <!-- Footer -->
     <div class="p-6 border-t border-gray-200">
       <div class="text-xs text-gray-500">
         <div class="font-medium mb-1">Strategic Priorities</div>
@@ -110,13 +142,10 @@ const isActive = (path: string) => currentPath === path;
     </div>
   </div>
 
-  {# Main Content #}
+  <!-- Main Content -->
   <div class="flex-1 overflow-auto">
     <slot />
   </div>
 </div>
-
-<script>
-  // Optional: Add client-side JavaScript for smooth transitions or other client-side behavior if needed
-  // import 'path/to/your/client-side-script.js';
-</script>
+</body>
+</html>
