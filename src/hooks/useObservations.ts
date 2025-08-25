@@ -21,6 +21,7 @@ export const useObservations = (observerId?: string) => {
   // Load observations
   const loadObservations = useCallback(async () => {
     if (!observerId) return;
+ console.log('Observer ID:', observerId);
     
     try {
       setLoading(true);
@@ -28,6 +29,7 @@ export const useObservations = (observerId?: string) => {
       const data = await operations.getByObserver(observerId);
       setObservations(data);
     } catch (err) {
+ console.error('Error loading observations:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to load observations';
       setError(errorMessage);
     } finally {

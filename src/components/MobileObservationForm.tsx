@@ -77,6 +77,7 @@ const MobileObservationForm: React.FC = () => {
   // Load observation data from session storage if available
   useEffect(() => {
     const storedData = sessionStorage.getItem('newObservationData');
+    console.log('Stored Data:', storedData);
     if (storedData) {
       try {
         const data = JSON.parse(storedData);
@@ -90,7 +91,8 @@ const MobileObservationForm: React.FC = () => {
           period: data.period,
           grade: data.grade
         }));
-        setSelectedFramework(data.framework || 'crp-in-action');
+        console.log('Parsed Data:', data);
+ setSelectedFramework(data.framework || 'crp-in-action');
         
         // Clear the session storage after loading
         sessionStorage.removeItem('newObservationData');

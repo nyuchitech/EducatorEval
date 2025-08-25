@@ -9,12 +9,13 @@ import { getFunctions } from 'firebase/functions';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.PUBLIC_FIREBASE_API_KEY || "your-api-key-here",
-  authDomain: process.env.PUBLIC_FIREBASE_AUTH_DOMAIN || "your-project-id.firebaseapp.com",
-  projectId: process.env.PUBLIC_FIREBASE_PROJECT_ID || "your-project-id",
-  storageBucket: process.env.PUBLIC_FIREBASE_STORAGE_BUCKET || "your-project-id.appspot.com",
-  messagingSenderId: process.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: process.env.PUBLIC_FIREBASE_APP_ID || "your-app-id"
+ apiKey: "AIzaSyC96VQ0JAYK2rwVGzikSWO_0RtLztR5BcI",
+ authDomain: "educator-evaluations.firebaseapp.com",
+ projectId: "educator-evaluations",
+ storageBucket: "educator-evaluations.firebasestorage.app",
+ messagingSenderId: "586497717614",
+ appId: "1:586497717614:web:2a5b0c565b67675b73fd7f",
+ measurementId: "G-HWXFM2W3E7"
 };
 
 // Initialize Firebase

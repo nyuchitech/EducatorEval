@@ -30,6 +30,8 @@ const ObservationDashboard: React.FC<ObservationDashboardProps> = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [scheduledDate, setScheduledDate] = useState('');
+  const [scheduledTime, setScheduledTime] = useState('');
   const [filteredObservations, setFilteredObservations] = useState<Observation[]>([]);
 
   // Filter observations based on active tab and search query
@@ -132,7 +134,12 @@ const ObservationDashboard: React.FC<ObservationDashboardProps> = () => {
                 Schedule Observation
               </button>
               <button
-                onClick={() => setShowCreateModal(true)}
+                onClick={() => {
+                  // Reset scheduled date and time when opening instant observation modal
+                  setScheduledDate('');
+                  setScheduledTime('');
+                  setShowCreateModal(true);
+                }}
                 className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -403,27 +410,80 @@ const ObservationDashboard: React.FC<ObservationDashboardProps> = () => {
         />
       )}
 
-      {showScheduleModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Schedule Observation</h3>
-            <p className="text-gray-600 mb-4">Schedule an observation for a future date and time.</p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowScheduleModal(false)}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                Schedule
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+{showScheduleModal && (
+  <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-lg max-w-md w-full p-6">
+      <h3 className="text-lg font-medium text-gray-900 mb-4">Schedule Observation</h3>
+      <p className="text-gray-600 mb-4">Schedule an observation for a future date and time.</p>
+      {/* Date and Time Inputs */}
+      <div className="mb-4">
+        <label htmlFor="schedule-date" className="block text-sm font-medium text-gray-700 mb-2">
+          Date
+        </label>
+        <input
+          type="date"
+          value={scheduledDate}
+          onChange={(e) => setScheduledDate(e.target.value)}
+          id="schedule-date"
+          className="w-full p-2 border border-gray-300 rounded-lg"
+        />
+      </div>
+      <div className="mb-6">
+        <label htmlFor="schedule-time" className="block text-sm font-medium text-gray-700 mb-2">
+          Time
+        </label>
+        <input
+          type="time"
+          value={scheduledTime}
+          onChange={(e) => setScheduledTime(e.target.value)}
+          id="schedule-time" 
+          className="w-full p-2 border border-gray-300 rounded-lg" 
+        />
+      </div>
+      
+      {/* Buttons */}
+      <div className="flex justify-end space-x-3">
+        <button
+          onClick={async () => {
+            if (!user || !scheduledDate || !scheduledTime) {
+              alert('Please select both date and time.');
+              return;
+            }
+            // Create a simple scheduled observation object
+            const scheduledObservation = {
+              teacherId: 'scheduled-placeholder', // Placeholder - ideally select teacher in modal
+              teacherName: 'Scheduled Teacher', // Placeholder
+              observerId: user.id,
+              observerName: user.name || user.email || 'Unknown Observer',
+              frameworkId: 'crp-in-action', // Default framework - ideally select in modal
+              date: scheduledDate,
+              startTime: scheduledTime,
+              status: 'scheduled' as const,
+              duration: 0, // Duration might be set later
+              responses: {},
+              comments: {},
+              overallComment: '',
+              classInfo: { name: 'Scheduled Class', subject: '', room: '', period: '', grade: '' }, // Placeholder
+            };
+            await createObservation(scheduledObservation);
+            setShowScheduleModal(false);
+            setScheduledDate('');
+            setScheduledTime('');
+          }}
+          disabled={!user || !scheduledDate || !scheduledTime} // Disable if no user or date/time
+          className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Schedule
+        </button>
+        <button
+          onClick={() => setShowScheduleModal(false)}
+          className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
-  );
-};
+  </div>
+)}
 
 export default ObservationDashboard;
